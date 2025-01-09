@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test",
+    "watch": "chokidar tests/**/*.spec.ts src/**/*.ts src/**/*.tsx -c \"npm run test\"",
+    "start-watch": "run-s -c test watch",
+    "dev-watch": "run-p dev start-watch",
     "test-ui": "npm run dev & playwright test --ui"
   },
   "dependencies": {
@@ -17,12 +20,15 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.49.1",
+    "@playwright/test": "1.47.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chokidar": "^4.0.3",
+    "chokidar-cli": "^3.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
