@@ -43,3 +43,9 @@ next-env.d.ts
 # devenv
 .devenv/
 .devenv*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
