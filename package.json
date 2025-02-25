@@ -20,7 +20,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@eslint/eslintrc": "^3",
+    "playwright-core": "1.47.0",
     "@playwright/test": "1.47.0",
     "@stylistic/eslint-plugin": "^4.0.1",
     "@types/node": "^20",
