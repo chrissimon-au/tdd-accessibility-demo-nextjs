@@ -9,6 +9,7 @@ export default function Home() {
         <select id="courses">
           <option value="1ca0289a-7125-4764-bef5-ef9731554717">Accessibility 101</option>
         </select>
+        <button>Enrol</button>
 
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
