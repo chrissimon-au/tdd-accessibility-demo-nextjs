@@ -7,7 +7,7 @@ export default function Home() {
 
         <label htmlFor="courses">Courses</label>
         <select id="courses">
-          <option>Accessibility 101</option>
+          <option value="1ca0289a-7125-4764-bef5-ef9731554717">Accessibility 101</option>
         </select>
 
       </main>
