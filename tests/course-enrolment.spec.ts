@@ -55,6 +55,10 @@ test('Reviewing available Courses', async ({ page }) => {
     coursesList = page.getByRole('combobox', { name: 'Courses' });
   });
 
+  test.step('Then I should be guided to select a course', async () => {
+    await expect(coursesList.getByRole('option', { name: 'Select the course you\'d like to enrol in...' })).toBeDisabled();
+  });
+
   for (const course of allCourses) {
     await test.step(`Then I should see course ${course.name} in list`, async () => {
       await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
