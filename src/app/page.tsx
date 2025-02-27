@@ -18,6 +18,7 @@ export default function Home() {
         <button onClick={enrol}>Enrol</button>
 
         <table>
+          <caption>Enrolments</caption>
           <tbody>
             {enrolments.map((enrolment, idx) => {
               return (
