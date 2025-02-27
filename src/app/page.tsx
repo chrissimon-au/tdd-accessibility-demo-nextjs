@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import EnrolingForm from '@/enroling/enroling-form';
+import Enrolments from '@/enroling/enrolments';
 
 export default function Home() {
   const [enrolments, setEnrolments] = React.useState([] as Array<string>);
@@ -14,28 +15,7 @@ export default function Home() {
 
         <EnrolingForm onEnrol={enrol} />
 
-        <table>
-          <caption>Enrolments</caption>
-          <thead>
-            <tr>
-              <th>Course</th>
-              <th>Status</th>
-              <th>Room</th>
-            </tr>
-          </thead>
-          <tbody>
-            {enrolments.map((enrolment, idx) => {
-              return (
-                <tr key={`enrolment-${idx}`}>
-                  <td>{enrolment}</td>
-                  <td>Submitted</td>
-                  <td>Not yet allocated</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
+        <Enrolments enrolments={enrolments} />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
 
