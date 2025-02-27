@@ -23,6 +23,7 @@ export default function EnrolingForm({ enrol, courses }: Props) {
     <form action={submitEnrol}>
       <label htmlFor="course">Courses</label>
       <select id="course" name="course">
+        <option disabled>{ `Select the course you'd like to enrol in...` }</option>
         { (courses ?? DEFAULT_COURSES).map(course =>
           <option key={course.id} value={course.id}>{course.name}</option>,
         )}
