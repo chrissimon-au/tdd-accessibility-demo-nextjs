@@ -13,9 +13,10 @@ test('Enroling in a Course', async ({ page }) => {
     await expect(coursesList).toHaveValue(courseId);
     const enrolButton = page.getByRole('button', { name: 'Enrol' });
     await expect(enrolButton).toBeEnabled();
+    await enrolButton.click();
   });
 
   await test.step('Then I should be enroled in that course', async () => {
-
+    await expect(page.getByRole('cell', { name: 'Accessibility 101' })).toBeVisible();
   });
 });
