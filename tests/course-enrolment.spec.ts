@@ -13,7 +13,7 @@ async function setupCourseMocks(page: Page) {
 }
 
 test.describe('Enroling in a Course', () => {
-  for (const course of [allCourses[0]]) {
+  for (const course of allCourses) {
     test(`Enroling in ${course.name}`, async ({ page }) => {
       await setupCourseMocks(page);
 
