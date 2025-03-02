@@ -30,6 +30,7 @@ test.describe('Enroling in a Course', () => {
         const coursesList = page.getByRole('combobox', { name: 'Courses' });
         await expect(coursesList).toBeVisible();
         await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
+        await coursesList.selectOption(course.name);
         await expect(coursesList).toHaveValue(course.id);
         const enrolButton = page.getByRole('button', { name: 'Enrol' });
         await expect(enrolButton).toBeEnabled();
