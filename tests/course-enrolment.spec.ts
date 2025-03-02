@@ -9,6 +9,11 @@ async function getTableCell(table: Locator, row: Locator, columnHeading: string)
   return cell;
 }
 
+interface Course {
+  id: string;
+  name: string;
+}
+
 const allCourses = [
   { name: 'Accessibility 101', id: '1ca0289a-7125-4764-bef5-ef9731554717' },
   { name: 'Front End Development 201', id: '260081c3-57b4-4d79-bbcb-4e7c43b31d3b' },
@@ -27,6 +32,32 @@ async function GivenIAmARegisteredStudent(page: Page) {
   });
 }
 
+async function WhenIEnrolInACourse(page: Page, course: Course) {
+  await test.step(`When I enrol in ${course.name}`, async () => {
+    const coursesList = page.getByRole('combobox', { name: 'Courses' });
+    await expect(coursesList).toBeVisible();
+    await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
+    await coursesList.selectOption(course.name);
+    await expect(coursesList).toHaveValue(course.id);
+    const enrolButton = page.getByRole('button', { name: 'Enrol' });
+    await expect(enrolButton).toBeEnabled();
+    await enrolButton.click();
+  });
+}
+
+async function ThenIShouldBeEnroledInThatCourse(page: Page, course: Course) {
+  await test.step(`Then I should be enroled in ${course.name}`, async () => {
+    const enrolments = page.getByRole('table', { name: 'Enrolments' });
+    await expect(enrolments).toBeVisible();
+    const row = enrolments.getByRole('row', { name: course.name });
+    await expect(row).toBeVisible();
+
+    await expect(await getTableCell(enrolments, row, 'Course')).toHaveText(course.name);
+    await expect(await getTableCell(enrolments, row, 'Status')).toHaveText('Submitted');
+    await expect(await getTableCell(enrolments, row, 'Room')).toHaveText('Not yet allocated');
+  });
+}
+
 test.describe('Enroling in a Course', () => {
   for (const course of allCourses) {
     test(`Enroling in ${course.name}`, async ({ page }) => {
@@ -34,27 +65,9 @@ test.describe('Enroling in a Course', () => {
 
       await GivenIAmARegisteredStudent(page);
 
-      await test.step('When I enrol in a course', async () => {
-        const coursesList = page.getByRole('combobox', { name: 'Courses' });
-        await expect(coursesList).toBeVisible();
-        await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
-        await coursesList.selectOption(course.name);
-        await expect(coursesList).toHaveValue(course.id);
-        const enrolButton = page.getByRole('button', { name: 'Enrol' });
-        await expect(enrolButton).toBeEnabled();
-        await enrolButton.click();
-      });
+      await WhenIEnrolInACourse(page, course);
 
-      await test.step('Then I should be enroled in that course', async () => {
-        const enrolments = page.getByRole('table', { name: 'Enrolments' });
-        await expect(enrolments).toBeVisible();
-        const row = enrolments.getByRole('row', { name: course.name });
-        await expect(row).toBeVisible();
-
-        await expect(await getTableCell(enrolments, row, 'Course')).toHaveText(course.name);
-        await expect(await getTableCell(enrolments, row, 'Status')).toHaveText('Submitted');
-        await expect(await getTableCell(enrolments, row, 'Room')).toHaveText('Not yet allocated');
-      });
+      await ThenIShouldBeEnroledInThatCourse(page, course);
     });
   }
 });
@@ -65,24 +78,11 @@ test('Enroling in Multiple Courses', async ({ page }) => {
   await GivenIAmARegisteredStudent(page);
 
   for (const course of allCourses) {
-    await test.step(`When I enrol in ${course.name}`, async () => {
-      const coursesList = page.getByRole('combobox', { name: 'Courses' });
-      await expect(coursesList).toBeVisible();
-      await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
-      await coursesList.selectOption(course.name);
-      await expect(coursesList).toHaveValue(course.id);
-      const enrolButton = page.getByRole('button', { name: 'Enrol' });
-      await expect(enrolButton).toBeEnabled();
-      await enrolButton.click();
-    });
+    await WhenIEnrolInACourse(page, course);
   }
 
   for (const course of allCourses) {
-    await test.step(`Then I should be enroled in ${course.name}`, async () => {
-      const enrolments = page.getByRole('table', { name: 'Enrolments' });
-      await expect(enrolments).toBeVisible();
-      await expect(enrolments.getByRole('cell', { name: course.name })).toBeVisible();
-    });
+    await ThenIShouldBeEnroledInThatCourse(page, course);
   }
 });
 
