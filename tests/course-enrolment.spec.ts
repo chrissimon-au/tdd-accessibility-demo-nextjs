@@ -1,4 +1,4 @@
-import { test, expect, Locator } from '@playwright/test';
+import { test, expect, Locator, Page } from '@playwright/test';
 
 async function getTableCell(table: Locator, row: Locator, columnHeading: string) {
   const headers = table.getByRole('rowgroup').nth(0).getByRole('cell');
@@ -15,12 +15,16 @@ const allCourses = [
   { name: 'Test-Driven Development 101', id: 'a9a2fe0d-f8bf-4201-9684-b22e4c42d21d' },
 ];
 
+async function setupCourseMocks(page: Page) {
+  await page.route('*/**/courses', async (route) => {
+    await route.fulfill({ json: allCourses });
+  });
+}
+
 test.describe('Enroling in a Course', () => {
   for (const course of allCourses) {
     test(`Enroling in ${course.name}`, async ({ page }) => {
-      await page.route('*/**/courses', async (route) => {
-        await route.fulfill({ json: [course] });
-      });
+      await setupCourseMocks(page);
 
       await test.step('Given I am a registered student', async () => {
         await page.goto('');
@@ -52,9 +56,7 @@ test.describe('Enroling in a Course', () => {
 });
 
 test('Reviewing available Courses', async ({ page }) => {
-  await page.route('*/**/courses', async (route) => {
-    await route.fulfill({ json: allCourses });
-  });
+  await setupCourseMocks(page);
 
   await test.step('Given I am a registered student', async () => {
     await page.goto('');
