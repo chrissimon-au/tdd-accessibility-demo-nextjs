@@ -59,6 +59,33 @@ test.describe('Enroling in a Course', () => {
   }
 });
 
+test('Enroling in Multiple Courses', async ({ page }) => {
+  await setupCourseMocks(page);
+
+  await GivenIAmARegisteredStudent(page);
+
+  for (const course of allCourses) {
+    await test.step(`When I enrol in ${course.name}`, async () => {
+      const coursesList = page.getByRole('combobox', { name: 'Courses' });
+      await expect(coursesList).toBeVisible();
+      await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
+      await coursesList.selectOption(course.name);
+      await expect(coursesList).toHaveValue(course.id);
+      const enrolButton = page.getByRole('button', { name: 'Enrol' });
+      await expect(enrolButton).toBeEnabled();
+      await enrolButton.click();
+    });
+  }
+
+  for (const course of allCourses) {
+    await test.step(`Then I should be enroled in ${course.name}`, async () => {
+      const enrolments = page.getByRole('table', { name: 'Enrolments' });
+      await expect(enrolments).toBeVisible();
+      await expect(enrolments.getByRole('cell', { name: course.name })).toBeVisible();
+    });
+  }
+});
+
 test('Reviewing available Courses', async ({ page }) => {
   await setupCourseMocks(page);
 
