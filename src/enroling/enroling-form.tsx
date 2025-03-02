@@ -5,11 +5,12 @@ export interface Course {
 
 interface Props {
   onEnrol: () => void;
+  courses: Array<Course>;
 }
 
-export default function EnrolingForm({ onEnrol }: Props) {
-  const course = { id: '1ca0289a-7125-4764-bef5-ef9731554717', name: 'Accessibility 101' };
-  return (
+export default function EnrolingForm({ onEnrol, courses }: Props) {
+  const course = courses[0];
+  return course && (
     <>
       <label htmlFor="courses">Courses</label>
       <select id="courses">
