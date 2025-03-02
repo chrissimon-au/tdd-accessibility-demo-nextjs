@@ -49,3 +49,25 @@ test.describe('Enroling in a Course', () => {
     });
   }
 });
+
+test('Reviewing available Courses', async ({ page }) => {
+  await page.route('*/**/courses', async (route) => {
+    await route.fulfill({ json: allCourses });
+  });
+
+  await test.step('Given I am a registered student', async () => {
+    await page.goto('');
+  });
+
+  let coursesList: Locator;
+
+  await test.step('When I review available courses', async () => {
+    coursesList = page.getByRole('combobox', { name: 'Courses' });
+  });
+
+  for (const course of allCourses) {
+    await test.step(`Then I should see course ${course.name} in list`, async () => {
+      await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
+    });
+  }
+});
