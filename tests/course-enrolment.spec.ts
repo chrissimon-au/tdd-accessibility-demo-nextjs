@@ -21,14 +21,18 @@ async function setupCourseMocks(page: Page) {
   });
 }
 
+async function GivenIAmARegisteredStudent(page: Page) {
+  await test.step('Given I am a registered student', async () => {
+    await page.goto('');
+  });
+}
+
 test.describe('Enroling in a Course', () => {
   for (const course of allCourses) {
     test(`Enroling in ${course.name}`, async ({ page }) => {
       await setupCourseMocks(page);
 
-      await test.step('Given I am a registered student', async () => {
-        await page.goto('');
-      });
+      await GivenIAmARegisteredStudent(page);
 
       await test.step('When I enrol in a course', async () => {
         const coursesList = page.getByRole('combobox', { name: 'Courses' });
@@ -58,9 +62,7 @@ test.describe('Enroling in a Course', () => {
 test('Reviewing available Courses', async ({ page }) => {
   await setupCourseMocks(page);
 
-  await test.step('Given I am a registered student', async () => {
-    await page.goto('');
-  });
+  await GivenIAmARegisteredStudent(page);
 
   let coursesList: Locator;
 
