@@ -9,15 +9,23 @@ interface Props {
 }
 
 export default function EnrolingForm({ onEnrol, courses }: Props) {
-  const course = courses[0];
-  const onEnrolClick = () => onEnrol(course);
-  return course && (
-    <>
-      <label htmlFor="courses">Courses</label>
-      <select id="courses">
-        <option value={course.id}>{course.name}</option>
+  function enrol(formData: FormData) {
+    const courseId = formData.get('course') as string;
+    const course = {
+      id: courseId,
+      name: courses.find(c => c.id == courseId)?.name ?? '',
+    };
+    onEnrol(course);
+  }
+  return courses && (
+    <form action={enrol}>
+      <label htmlFor="course">Courses</label>
+      <select id="course" name="course">
+        { courses.map(course =>
+          <option key={`course-${course.id}`} value={course.id}>{course.name}</option>,
+        )}
       </select>
-      <button onClick={onEnrolClick}>Enrol</button>
-    </>
+      <button>Enrol</button>
+    </form>
   );
 }
