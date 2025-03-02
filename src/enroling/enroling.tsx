@@ -1,15 +1,31 @@
 'use client';
-import React from 'react';
-import EnrolingForm from '@/enroling/enroling-form';
+import { useState, useEffect } from 'react';
+import EnrolingForm, { Course } from '@/enroling/enroling-form';
 import Enrolments from '@/enroling/enrolments';
 
 export default function Enroling() {
-  const [enrolments, setEnrolments] = React.useState([] as Array<string>);
+  const [enrolments, setEnrolments] = useState([] as Array<string>);
   const enrol = () => setEnrolments(['Accessibility 101']);
+
+  const [courses, setCourses] = useState([] as Array<Course>);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const response = await fetch(
+        `/courses`,
+      );
+
+      const courses = await response.json();
+
+      setCourses(courses);
+    };
+
+    fetchCourses();
+  }, []);
 
   return (
     <>
-      <EnrolingForm onEnrol={enrol} />
+      <EnrolingForm onEnrol={enrol} courses={courses} />
       <Enrolments enrolments={enrolments} />
     </>
   );
