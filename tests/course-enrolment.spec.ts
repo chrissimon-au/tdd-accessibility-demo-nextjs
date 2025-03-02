@@ -39,10 +39,10 @@ test.describe('Enroling in a Course', () => {
       await test.step('Then I should be enroled in that course', async () => {
         const enrolments = page.getByRole('table', { name: 'Enrolments' });
         await expect(enrolments).toBeVisible();
-        const row = enrolments.getByRole('row', { name: 'Accessibility 101' });
+        const row = enrolments.getByRole('row', { name: course.name });
         await expect(row).toBeVisible();
 
-        await expect(await getTableCell(enrolments, row, 'Course')).toHaveText('Accessibility 101');
+        await expect(await getTableCell(enrolments, row, 'Course')).toHaveText(course.name);
         await expect(await getTableCell(enrolments, row, 'Status')).toHaveText('Submitted');
         await expect(await getTableCell(enrolments, row, 'Room')).toHaveText('Not yet allocated');
       });
