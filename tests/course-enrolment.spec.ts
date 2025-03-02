@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Locator } from '@playwright/test';
 
 const allCourses = [
   { name: 'Accessibility 101', id: '1ca0289a-7125-4764-bef5-ef9731554717' },
@@ -32,6 +32,28 @@ test.describe('Enroling in a Course', () => {
         await expect(enrolments).toBeVisible();
         await expect(enrolments.getByRole('cell', { name: course.name })).toBeVisible();
       });
+    });
+  }
+});
+
+test('Reviewing available Courses', async ({ page }) => {
+  await page.route('*/**/courses', async (route) => {
+    await route.fulfill({ json: allCourses });
+  });
+
+  await test.step('Given I am a registered student', async () => {
+    await page.goto('');
+  });
+
+  let coursesList: Locator;
+
+  await test.step('When I review available courses', async () => {
+    coursesList = page.getByRole('combobox', { name: 'Courses' });
+  });
+
+  for (const course of allCourses) {
+    await test.step(`Then I should see course ${course.name} in list`, async () => {
+      await expect(coursesList.getByRole('option', { name: course.name })).toBeEnabled();
     });
   }
 });
