@@ -5,7 +5,7 @@ import Enrolments from '@/enroling/enrolments';
 
 export default function Enroling() {
   const [enrolments, setEnrolments] = useState([] as Array<string>);
-  const enrol = (course: Course) => setEnrolments([course.name]);
+  const enrol = (course: Course) => setEnrolments(enrolments.concat([course.name]));
 
   const [courses, setCourses] = useState([] as Array<Course>);
 
