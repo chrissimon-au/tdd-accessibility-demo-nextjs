@@ -30,7 +30,7 @@ test.describe('Enroling in a Course', () => {
       await test.step('Then I should be enroled in that course', async () => {
         const enrolments = page.getByRole('table', { name: 'Enrolments' });
         await expect(enrolments).toBeVisible();
-        await expect(enrolments.getByRole('cell', { name: 'Accessibility 101' })).toBeVisible();
+        await expect(enrolments.getByRole('cell', { name: course.name })).toBeVisible();
       });
     });
   }
