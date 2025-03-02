@@ -17,10 +17,12 @@ export default function EnrolingForm({ onEnrol, courses }: Props) {
     };
     onEnrol(course);
   }
+  const helpMsg = `Select the course you'd like to enrol in...`;
   return courses && (
     <form action={enrol}>
       <label htmlFor="course">Courses</label>
-      <select id="course" name="course">
+      <select id="course" name="course" defaultValue={helpMsg}>
+        <option disabled>{ helpMsg }</option>
         { courses.map(course =>
           <option key={`course-${course.id}`} value={course.id}>{course.name}</option>,
         )}
