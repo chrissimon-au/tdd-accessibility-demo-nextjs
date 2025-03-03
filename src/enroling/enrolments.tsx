@@ -5,7 +5,7 @@ interface Props {
 export default function Enrolments({ enrolments }: Props) {
   return (
     <table>
-      <caption>Enrolments</caption>
+      <caption className="text-left text-2xl">Enrolments</caption>
       <tbody>
         {enrolments.map((enrolment, idx) => {
           return (
