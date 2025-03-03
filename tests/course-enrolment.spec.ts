@@ -6,7 +6,7 @@ test('Enroling in a Course', async ({ page }) => {
   });
 
   await test.step('When I enrol in a course', async () => {
-    await expect(page.getByRole('combobox')).toBeVisible();
+    await expect(page.getByRole('combobox', { name: 'Courses' })).toBeVisible();
   });
 
   await test.step('Then I should be enroled in that course', async () => {
