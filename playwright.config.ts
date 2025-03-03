@@ -32,6 +32,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
+  // See https://playwright.dev/docs/test-timeouts
+  timeout: 5_000,
+
   expect: {
     // See https://playwright.dev/docs/test-timeouts
     timeout: 1_000,
