@@ -14,6 +14,10 @@ interface Course {
   name: string;
 }
 
+interface EnrolStudentInCourseRequest {
+  courseId: string;
+}
+
 const allCourses = [
   { name: 'Accessibility 101', id: '1ca0289a-7125-4764-bef5-ef9731554717' },
   { name: 'Front End Development 201', id: '260081c3-57b4-4d79-bbcb-4e7c43b31d3b' },
@@ -24,6 +28,16 @@ async function setupCourseMocks(page: Page) {
   await page.route('*/**/courses', async (route) => {
     await route.fulfill({ json: allCourses });
   });
+}
+
+async function setupEnrolmentMocks(page: Page) {
+  const enrolmentMock = new Promise<EnrolStudentInCourseRequest>(async (resolve) => {
+    await page.route('*/**/students/*/courses', async (route) => {
+      resolve(route.request().postDataJSON());
+      route.fulfill();
+    });
+  });
+  return enrolmentMock;
 }
 
 async function GivenIAmARegisteredStudent(page: Page) {
@@ -45,7 +59,7 @@ async function WhenIEnrolInACourse(page: Page, course: Course) {
   });
 }
 
-async function ThenIShouldBeEnroledInThatCourse(page: Page, course: Course) {
+async function ThenIShouldBeEnroledInThatCourse(page: Page, course: Course, enrolStudentInCourseRequestPromise: Promise<EnrolStudentInCourseRequest> | undefined = undefined) {
   await test.step(`Then I should be enroled in ${course.name}`, async () => {
     const enrolments = page.getByRole('table', { name: 'Enrolments' });
     await expect(enrolments).toBeVisible();
@@ -55,6 +69,10 @@ async function ThenIShouldBeEnroledInThatCourse(page: Page, course: Course) {
     await expect(await getTableCell(enrolments, row, 'Course')).toHaveText(course.name);
     await expect(await getTableCell(enrolments, row, 'Status')).toHaveText('Submitted');
     await expect(await getTableCell(enrolments, row, 'Room')).toHaveText('Not yet allocated');
+    if (enrolStudentInCourseRequestPromise) {
+      const enrolStudentInCourseRequest = await enrolStudentInCourseRequestPromise;
+      expect(enrolStudentInCourseRequest.courseId).toBe(course.id);
+    }
   });
 }
 
@@ -63,11 +81,13 @@ test.describe('Enroling in a Course', () => {
     test(`Enroling in ${course.name}`, async ({ page }) => {
       await setupCourseMocks(page);
 
+      const enrolStudentInCourseRequestPromise = setupEnrolmentMocks(page);
+
       await GivenIAmARegisteredStudent(page);
 
       await WhenIEnrolInACourse(page, course);
 
-      await ThenIShouldBeEnroledInThatCourse(page, course);
+      await ThenIShouldBeEnroledInThatCourse(page, course, enrolStudentInCourseRequestPromise);
     });
   }
 });
