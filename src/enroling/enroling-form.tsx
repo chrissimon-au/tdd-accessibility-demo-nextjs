@@ -11,6 +11,9 @@ interface Props {
 export default function EnrolingForm({ onEnrol, courses }: Props) {
   function enrol(formData: FormData) {
     const courseId = formData.get('course') as string;
+    if (!!!courseId) {
+      return;
+    }
     const course = {
       id: courseId,
       name: courses.find(c => c.id == courseId)?.name ?? '',
