@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test",
+    "test-pw": "playwright test",
+    "test-ct": "playwright test -c playwright-ct.config.ts",
+    "test": "run-p test-pw test-ct",
     "lint-test": "run-s lint test",
     "watch": "watchexec -e ts,tsx npm run lint-test",
     "dev-watch": "run-p dev watch",
     "test-ui": "playwright test --ui",
-    "dev-watch-ui": "run-p dev-watch test-ui",
-    "test-ct": "playwright test -c playwright-ct.config.ts"
+    "dev-watch-ui": "run-p dev-watch test-ui"
   },
   "dependencies": {
     "next": "15.1.4",

@@ -4,7 +4,8 @@ import { defineConfig, devices } from '@playwright/experimental-ct-react';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './',
+  testDir: './tests',
+  testMatch: '**/*.ct.tsx',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: './__snapshots__',
   /* Maximum time one test can run for. */
@@ -18,7 +19,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
