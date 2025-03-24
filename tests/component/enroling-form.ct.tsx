@@ -44,6 +44,9 @@ test.describe('Enroling Form Component', () => {
 
     const selector = form.getByRole('combobox', { name: 'Courses' });
     const enrolButton = form.getByRole('button', { name: 'Enrol' });
+    const validationMsgId = await selector.getAttribute('aria-describedby') ?? '';
+    const validationMsg = form.locator(`#${validationMsgId}`);
+    await expect(validationMsg).toBeHidden();
 
     await enrolButton.click();
 
@@ -51,5 +54,8 @@ test.describe('Enroling Form Component', () => {
 
     const msg = await selector.evaluate((e: HTMLInputElement) => e.validationMessage);
     expect(msg).not.toBe('');
+
+    await expect(validationMsg).toBeVisible();
+    await expect(validationMsg).toHaveText('Please select the course to enrol in.');
   });
 });
