@@ -26,4 +26,26 @@ test.describe('Enroling Form Component', () => {
 
     expect(enroledCourse).toStrictEqual(courses[0]);
   });
+
+  test('Warn if course not selected on submit', async ({ mount }) => {
+    const courses = [
+      {
+        id: 'courseId',
+        name: 'testCourse',
+      },
+    ];
+
+    let enroledCourse = null;
+    const onEnrol = (course: Course) => enroledCourse = course;
+
+    const form = await mount(
+      <EnrolingForm courses={courses} onEnrol={onEnrol} />,
+    );
+
+    const enrolButton = form.getByRole('button', { name: 'Enrol' });
+
+    await enrolButton.click();
+
+    expect(enroledCourse).toBeNull();
+  });
 });
