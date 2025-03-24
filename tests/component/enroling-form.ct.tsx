@@ -42,10 +42,14 @@ test.describe('Enroling Form Component', () => {
       <EnrolingForm courses={courses} onEnrol={onEnrol} />,
     );
 
+    const selector = form.getByRole('combobox', { name: 'Courses' });
     const enrolButton = form.getByRole('button', { name: 'Enrol' });
 
     await enrolButton.click();
 
     expect(enroledCourse).toBeNull();
+
+    const msg = await selector.evaluate((e: HTMLInputElement) => e.validationMessage);
+    expect(msg).not.toBe('');
   });
 });
