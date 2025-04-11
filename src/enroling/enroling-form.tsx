@@ -38,13 +38,17 @@ export default function EnrolingForm({ onEnrol, courses }: Props) {
             <option key={`course-${course.id}`} value={course.id}>{course.name}</option>,
           )}
         </select>
-        {isInvalid && (
-          <div id="course-errors" className="bg-error px-3 py-1 pt-none text-sm rounded-lg rounded-tl-none rounded-tr-none" role="alert">
-            <ul>
-              <li>Please select the course to enrol in.</li>
-            </ul>
-          </div>
-        )}
+        <div
+          id="course-errors"
+          role="alert"
+        >
+          <ul
+            className="bg-error px-3 py-1 pt-none text-sm rounded-lg rounded-tl-none rounded-tr-none"
+            style={{ visibility: (isInvalid ? 'visible' : 'hidden'), display: (isInvalid ? 'block' : 'none') }}
+          >
+            <li>Please select the course to enrol in.</li>
+          </ul>
+        </div>
       </div>
       <div className="mt-3">
         <button className="px-3 py-1 rounded-md bg-blue-600 text-white">Enrol</button>
