@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --error: #FF7878;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,5 +22,7 @@ body {
 }
 
 select:user-invalid {
-  background-color:#FF7878;
+  background-color:--var(error);
+  @apply rounded-bl-none;
+  @apply rounded-br-none;
 }
