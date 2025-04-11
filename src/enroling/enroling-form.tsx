@@ -39,7 +39,7 @@ export default function EnrolingForm({ onEnrol, courses }: Props) {
           )}
         </select>
         {isInvalid && (
-          <div id="course-errors" className="bg-error px-3 py-1 pt-none text-sm rounded-lg rounded-tl-none rounded-tr-none">
+          <div id="course-errors" className="bg-error px-3 py-1 pt-none text-sm rounded-lg rounded-tl-none rounded-tr-none" role="alert">
             Please select the course to enrol in.
           </div>
         )}
