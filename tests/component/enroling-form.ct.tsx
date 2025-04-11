@@ -56,6 +56,7 @@ test.describe('Enroling Form Component', () => {
     expect(msg).not.toBe('');
 
     await expect(validationMsg).toBeVisible();
+    await expect(validationMsg).toHaveRole('alert');
     await expect(validationMsg).toHaveText('Please select the course to enrol in.');
   });
 });
