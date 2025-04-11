@@ -46,6 +46,7 @@ test.describe('Enroling Form Component', () => {
     const enrolButton = form.getByRole('button', { name: 'Enrol' });
     const validationMsgId = await selector.getAttribute('aria-describedby') ?? '';
     const validationMsg = form.locator(`#${validationMsgId}`);
+    await expect(validationMsg).toBeAttached();
     await expect(validationMsg).toBeHidden();
 
     await enrolButton.click();
