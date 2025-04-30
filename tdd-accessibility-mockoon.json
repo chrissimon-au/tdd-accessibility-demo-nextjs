@@ -1,0 +1,94 @@
+{
+  "uuid": "29058f0f-1f1e-45e4-a480-a63971055f29",
+  "lastMigration": 33,
+  "name": "Tdd Accessibility",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3002,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "d273bfb8-c40f-463e-a9e6-59b4f36ded06",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "courses",
+      "responses": [
+        {
+          "uuid": "84374470-42d1-4953-80c6-60f8e1ddba21",
+          "body": "[\n  { \"name\": \"Accessibility 101\", \"id\": \"1ca0289a-7125-4764-bef5-ef9731554717\" },\n  { \"name\": \"Front End Development 201\", \"id\": \"260081c3-57b4-4d79-bbcb-4e7c43b31d3b\" },\n  { \"name\": \"Test-Driven Development 101\", \"id\": \"a9a2fe0d-f8bf-4201-9684-b22e4c42d21d\" }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "d273bfb8-c40f-463e-a9e6-59b4f36ded06"
+    }
+  ],
+  "proxyMode": true,
+  "proxyHost": "http://localhost:3000",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
