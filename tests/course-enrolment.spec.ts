@@ -1,4 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Locator } from '@playwright/test';
+
+async function getTableCell(table: Locator, row: Locator, columnHeading: string) {
+  const headers = table.getByRole('rowgroup').nth(0).getByRole('cell');
+  const headerCellsContent = await Promise.all((await headers.all()).map(l => l.textContent()));
+  const idx = headerCellsContent.indexOf(columnHeading);
+  const rowCells = row.getByRole('cell');
+  const cell = rowCells.nth(idx);
+  return cell;
+}
 
 test('Enroling in a Course', async ({ page }) => {
   await test.step('Given I am a registered student', async () => {
@@ -20,21 +29,11 @@ test('Enroling in a Course', async ({ page }) => {
     const enrolments = page.getByRole('table', { name: 'Enrolments' });
     await expect(enrolments).toBeVisible();
 
-    const headers = enrolments.getByRole('rowgroup').nth(0).getByRole('cell');
-    await expect(headers).toHaveCount(3);
-    const headerCellsContent = await Promise.all((await headers.all()).map(l => l.textContent()));
-    const courseIdx = headerCellsContent.indexOf('Course');
-    const statusIdx = headerCellsContent.indexOf('Status');
-    const roomIdx = headerCellsContent.indexOf('Room');
+    const row = enrolments.getByRole('row', { name: 'Accessibility 101' });
+    await expect(row).toBeVisible();
 
-    const enrolmentCourse = enrolments.getByRole('row', { name: 'Accessibility 101' });
-    await expect(enrolmentCourse).toBeVisible();
-    const enrolmentCourseCells = enrolmentCourse.getByRole('cell');
-    const course = enrolmentCourseCells.nth(courseIdx);
-    const status = enrolmentCourseCells.nth(statusIdx);
-    const room = enrolmentCourseCells.nth(roomIdx);
-    await expect(course).toHaveText('Accessibility 101');
-    await expect(status).toHaveText('Submitted');
-    await expect(room).toHaveText('Not yet allocated');
+    await expect(await getTableCell(enrolments, row, 'Course')).toHaveText('Accessibility 101');
+    await expect(await getTableCell(enrolments, row, 'Status')).toHaveText('Submitted');
+    await expect(await getTableCell(enrolments, row, 'Room')).toHaveText('Not yet allocated');
   });
 });
